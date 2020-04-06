@@ -43,7 +43,8 @@ def sortD(zad):
             return zad
 
 
-zadania = loadData("data/data10.txt")
+
+zadania = loadData("data/data13.txt")
 print(calculate_Fmax(copy.deepcopy(zadania)))
-zadania2 = sortD(copy.deepcopy(zadania))
-print(calculate_Fmax(copy.deepcopy(zadania2)))
+zadaniaSortD = sortD(copy.deepcopy(zadania))
+print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
