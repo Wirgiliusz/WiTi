@@ -54,23 +54,36 @@ def optPermutations(zad):
     return Fmax
 
 #currentTasks = []
-def optRecursion(zad, current):
+def optRecursionStart(zad):
     availableTasks = copy.deepcopy(zad)
-    currentTasks = copy.deepcopy(current)
-    #global currentTasks
+    currentTasks = []
+    Fmax = math.inf
 
-    for i in range(0, len(availableTasks)):
-        currentTasks.append(availableTasks[i])
-        temp = availableTasks.pop(i)
-        optRecursion(availableTasks, copy.deepcopy(currentTasks))
-        availableTasks.insert(i, temp)
-        print(currentTasks)
-        
+    def optRecursion(zad, current):
+        nonlocal Fmax
+        availableTasks = copy.deepcopy(zad)
+        currentTasks = copy.deepcopy(current)
+
+        if len(zad) != 0:
+            for i in range(0, len(availableTasks)):
+                currentTasks.append(copy.copy(availableTasks[i]))
+                temp = availableTasks.pop(i)
+                optRecursion(availableTasks, currentTasks)
+                availableTasks.insert(i, temp)
+                currentTasks.pop()
+        else:
+            #print(currentTasks)
+            F = calculate_Fmax(copy.deepcopy(currentTasks))
+            if F < Fmax:
+                Fmax = F
+
+    optRecursion(availableTasks, currentTasks)
+    return Fmax
 
 
-zadania = loadData("data/data10.txt")
+zadania = loadData("data/data3.txt")
 print(calculate_Fmax(copy.deepcopy(zadania)))
 zadaniaSortD = sortD(copy.deepcopy(zadania))
 print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
 #print(optPermutations(copy.deepcopy(zadania)))
-optRecursion(copy.deepcopy(zadania), [])
+print(optRecursionStart(copy.deepcopy(zadania)))
