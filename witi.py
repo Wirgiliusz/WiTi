@@ -1,4 +1,5 @@
 import copy
+from itertools import permutations
 
 def loadData(path):
     plik = open(path, "r")
@@ -17,19 +18,19 @@ def calculate_Fmax(zad):
     S = []
     C = []
     T = []
-    F = 0
+    Fmax = 0
 
     S.append(0)
     C.append(zad[0][0])
     T.append(max(C[0]-zad[0][2],0))
-    F = zad[0][1] * T[0]
+    Fmax = zad[0][1] * T[0]
     for j in range(1, len(zad)):
         S.append(C[j-1])
         C.append(S[j] + zad[j][0])
         T.append(max(C[j]-zad[j][2],0))
-        F += zad[j][1] * T[j]
+        Fmax += zad[j][1] * T[j]
 
-    return F
+    return Fmax
     
 def sortD(zad):
     while True:
@@ -42,6 +43,13 @@ def sortD(zad):
         if zmiana == False:
             return zad
 
+def optPermutations(zad):
+    perms = list(permutations(range(1, 4)))
+    Fmax = 0
+    for perm in perms:
+        F = calculate_Fmax(perm)
+        if F < Fmax:
+            Fmax = F
 
 
 zadania = loadData("data/data13.txt")
