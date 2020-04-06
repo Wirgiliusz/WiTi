@@ -1,4 +1,5 @@
 import copy
+import math
 from itertools import permutations
 
 def loadData(path):
@@ -44,15 +45,17 @@ def sortD(zad):
             return zad
 
 def optPermutations(zad):
-    perms = list(permutations(range(1, 4)))
-    Fmax = 0
+    perms = list(permutations(zad,r=len(zad)))
+    Fmax = math.inf
     for perm in perms:
         F = calculate_Fmax(perm)
         if F < Fmax:
             Fmax = F
+    return Fmax
 
 
-zadania = loadData("data/data13.txt")
+zadania = loadData("data/data10.txt")
 print(calculate_Fmax(copy.deepcopy(zadania)))
 zadaniaSortD = sortD(copy.deepcopy(zadania))
 print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
+print(optPermutations(copy.deepcopy(zadania)))
