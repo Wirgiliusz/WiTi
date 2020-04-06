@@ -1,4 +1,4 @@
-
+import copy
 
 def loadData(path):
     plik = open(path, "r")
@@ -13,5 +13,24 @@ def loadData(path):
 
     return zadania
 
+def calculate_Fmax(zad):
+    S = []
+    C = []
+    T = []
+    F = 0
 
-zadania = loadData("data/data20.txt")
+    S.append(0)
+    C.append(zad[0][0])
+    T.append(max(C[0]-zad[0][2],0))
+
+    for j in range(1, len(zad)):
+        S.append(C[j-1])
+        C.append(S[j] + zad[j][0])
+        T.append(max(C[j]-zad[j][2],0))
+        F += zad[j][1] * T[j]
+
+    return F
+    
+
+zadania = loadData("data/data15.txt")
+print(calculate_Fmax(copy.deepcopy(zadania)))
