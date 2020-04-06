@@ -22,7 +22,7 @@ def calculate_Fmax(zad):
     S.append(0)
     C.append(zad[0][0])
     T.append(max(C[0]-zad[0][2],0))
-
+    F = zad[0][1] * T[0]
     for j in range(1, len(zad)):
         S.append(C[j-1])
         C.append(S[j] + zad[j][0])
@@ -31,6 +31,19 @@ def calculate_Fmax(zad):
 
     return F
     
+def sortD(zad):
+    while True:
+        zmiana = False
+        for j in range(0, len(zad)-1):
+            if zad[j][2] > zad[j+1][2]:
+                zad[j], zad[j+1] = zad[j+1], zad[j]
+                zmiana = True
 
-zadania = loadData("data/data15.txt")
+        if zmiana == False:
+            return zad
+
+
+zadania = loadData("data/data10.txt")
 print(calculate_Fmax(copy.deepcopy(zadania)))
+zadania2 = sortD(copy.deepcopy(zadania))
+print(calculate_Fmax(copy.deepcopy(zadania2)))
