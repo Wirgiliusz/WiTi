@@ -82,9 +82,9 @@ def optRecursionStart(zad):
     return Fmax
 
 
-zadania = loadData("data/data10.txt")
+zadania = loadData("data/data9.txt")
 print(calculate_Fmax(copy.deepcopy(zadania)))
 zadaniaSortD = sortD(copy.deepcopy(zadania))
 print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
-#print(optPermutations(copy.deepcopy(zadania)))
+print(optPermutations(copy.deepcopy(zadania)))
 print(optRecursionStart(copy.deepcopy(zadania)))
