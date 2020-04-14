@@ -81,10 +81,48 @@ def optRecursionStart(zad):
     optRecursion(availableTasks, currentTasks)
     return Fmax
 
+def dynamicIterations(zad):
+    availableTasks = copy.deepcopy(zad)
+    currentTasks = []
+    knownValues = {}
+
+    for i in range(1, len(zad)):
+        binTasksToCheck = bin(i).replace("0b","")
+        if binTasksToCheck not in knownValues:
+            iterator = 0
+            for binChar in reversed(binTasksToCheck):
+                if binChar == '1':
+                    currentTasks.append(availableTasks[iterator])
+                iterator = iterator + 1
+
+            #F = calculate_Fmax(copy.deepcopy(currentTasks))
+            sumOfP = pSum(copy.deepcopy(currentTasks))
+            Fmin = math.inf
+            iterator = 0
+            for binChar in reversed(binTasksToCheck):
+                if binChar == '1':
+                    F = max((sumOfP - currentTasks[iterator][2]) * currentTasks[iterator][1], 0) # + F(xxx) (but how) - znalezc pattern #TODO#
+                    if F < Fmin:
+                        Fmin = F
+                    iterator = iterator + 1
+                    
+            knownValues[binTasksToCheck] = F
+
+        currentTasks.clear()
+        
+def pSum(zad):
+    sum = 0
+    for i in range(0, len(zad)):
+        sum += zad[i][0]
+    return sum
+
+
 
 zadania = loadData("data/data10.txt")
-print(calculate_Fmax(copy.deepcopy(zadania)))
-zadaniaSortD = sortD(copy.deepcopy(zadania))
-print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
-print(optPermutations(copy.deepcopy(zadania)))
+#print(calculate_Fmax(copy.deepcopy(zadania)))
+#zadaniaSortD = sortD(copy.deepcopy(zadania))
+#print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
+#print(optPermutations(copy.deepcopy(zadania)))
 #print(optRecursionStart(copy.deepcopy(zadania)))
+
+dynamicIterations(copy.deepcopy(zadania))
