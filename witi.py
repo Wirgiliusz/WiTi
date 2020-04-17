@@ -102,9 +102,9 @@ def dynamicIterations(zad):
             binIterator = 0
             for binChar in reversed(binTasksToCheck):
                 if binChar == '1':
-                    binChecking = list(binTasksToCheck)
+                    binChecking = list(reversed(binTasksToCheck))
                     binChecking[binIterator] = '0'
-                    binChecking = ''.join(binChecking)
+                    binChecking = ''.join(reversed(binChecking))
                     F = max((sumOfP - currentTasks[iterator][2]), 0) * currentTasks[iterator][1]
                     if binChecking in knownValues:
                         F += knownValues[binChecking]
