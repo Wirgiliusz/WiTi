@@ -104,7 +104,14 @@ def dynamicIterations(zad):
                 if binChar == '1':
                     binChecking = list(reversed(binTasksToCheck))
                     binChecking[binIterator] = '0'
-                    binChecking = ''.join(reversed(binChecking))
+                    binChecking.reverse()
+                    cutBinChecking = []
+                    for k in range(0, len(binChecking)):
+                        if binChecking[k] == '1':
+                            cutBinChecking = binChecking[k:len(binChecking)]
+                            break
+                    binChecking = ''.join(cutBinChecking)
+                    
                     F = max((sumOfP - currentTasks[iterator][2]), 0) * currentTasks[iterator][1]
                     if binChecking in knownValues:
                         F += knownValues[binChecking]
@@ -126,7 +133,7 @@ def pSum(zad):
 
 
 
-zadania = loadData("data/data10.txt")
+zadania = loadData("data/data20.txt")
 #print(calculate_Fmax(copy.deepcopy(zadania)))
 #zadaniaSortD = sortD(copy.deepcopy(zadania))
 #print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
