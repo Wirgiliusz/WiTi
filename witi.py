@@ -124,16 +124,51 @@ def dynamicIterations(zad):
         currentTasks.clear()
     return Fmin
         
-
 def pSum(zad):
     sum = 0
     for i in range(0, len(zad)):
         sum += zad[i][0]
     return sum
 
+def dynamicRecursionStart(zad):
+    availableTasks = copy.deepcopy(zad)
+    currentTasks = []
+    knownValues = {}
+    Fmax = math.inf
+    n = len(zad)
+    binTasksToCheck = "1" * n
 
+    def dynamicRecursion(zad, current, binChecking):
+        nonlocal Fmax
+        nonlocal n
+        availableTasks = copy.deepcopy(zad)
+        currentTasks = copy.deepcopy(current)
+        
+        if len(zad) != 0 and currentTasks != n:
+            for i in range(0, len(availableTasks)):
+                binChecking = list(binChecking)
+                binChecking[availableTasks[i][3]-1] = '0'
+                binChecking = ''.join(binChecking)
+                if binChecking not in knownValues:
+                    currentTasks.append(copy.copy(availableTasks[i]))
+                    temp = availableTasks.pop(i)
+                    dynamicRecursion(availableTasks, currentTasks, binChecking)
+                    availableTasks.insert(i, temp)
+                binChecking = list(binChecking)
+                binChecking[availableTasks[i][3]-1] = '1'
+                binChecking = ''.join(binChecking)
+                currentTasks.pop()
+        else:
+            F = calculate_Fmax(copy.deepcopy(currentTasks))
+            knownValues[binChecking] = F
+            print(F)
+            if F < Fmax:
+                Fmax = F
 
-zadania = loadData("data/data20.txt")
+    dynamicRecursion(availableTasks, currentTasks, binTasksToCheck)
+    return Fmax
+
+zadania = loadData("data/data3.txt")
 #print(calculate_Fmax(copy.deepcopy(zadania)))
 #zadaniaSortD = sortD(copy.deepcopy(zadania))
 #print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
@@ -141,3 +176,4 @@ zadania = loadData("data/data20.txt")
 #print(optRecursionStart(copy.deepcopy(zadania)))
 
 print(dynamicIterations(copy.deepcopy(zadania)))
+print(dynamicRecursionStart(copy.deepcopy(zadania)))
