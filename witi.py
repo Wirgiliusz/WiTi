@@ -154,21 +154,28 @@ def dynamicRecursionStart(zad):
                     temp = availableTasks.pop(i)
                     dynamicRecursion(availableTasks, currentTasks, binChecking)
                     availableTasks.insert(i, temp)
+                    F = calculate_Fmax(copy.deepcopy(currentTasks))
+                    knownValues[binChecking] = F
+                    #print(F)
+                    #if F < Fmax and F != 0:
+                    #    Fmax = F
+                    currentTasks.pop()
                 binChecking = list(binChecking)
                 binChecking[availableTasks[i][3]-1] = '1'
                 binChecking = ''.join(binChecking)
-                currentTasks.pop()
+        
         else:
             F = calculate_Fmax(copy.deepcopy(currentTasks))
             knownValues[binChecking] = F
-            print(F)
+            #print(F)
             if F < Fmax:
                 Fmax = F
+        
 
     dynamicRecursion(availableTasks, currentTasks, binTasksToCheck)
     return Fmax
 
-zadania = loadData("data/data3.txt")
+zadania = loadData("data/data15.txt")
 #print(calculate_Fmax(copy.deepcopy(zadania)))
 #zadaniaSortD = sortD(copy.deepcopy(zadania))
 #print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
