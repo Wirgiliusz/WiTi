@@ -132,50 +132,66 @@ def pSum(zad):
 
 def dynamicRecursionStart(zad):
     availableTasks = copy.deepcopy(zad)
-    currentTasks = []
-    knownValues = {}
-    Fmax = math.inf
     n = len(zad)
+    knownValues = {'0'*n : 0}
     binTasksToCheck = "1" * n
 
-    def dynamicRecursion(zad, current, binChecking):
-        nonlocal Fmax
+    def dynamicRecursion(zad, binChecking):
         nonlocal n
         availableTasks = copy.deepcopy(zad)
-        currentTasks = copy.deepcopy(current)
-        
-        if len(zad) != 0 and currentTasks != n:
-            for i in range(0, len(availableTasks)):
+        Fmin = math.inf
+
+        for i in range(0, len(availableTasks)):
+            if binChecking not in knownValues:
                 binChecking = list(binChecking)
                 binChecking[availableTasks[i][3]-1] = '0'
                 binChecking = ''.join(binChecking)
-                if binChecking not in knownValues:
-                    currentTasks.append(copy.copy(availableTasks[i]))
-                    temp = availableTasks.pop(i)
-                    dynamicRecursion(availableTasks, currentTasks, binChecking)
-                    availableTasks.insert(i, temp)
-                    F = calculate_Fmax(copy.deepcopy(currentTasks))
-                    knownValues[binChecking] = F
-                    #print(F)
-                    #if F < Fmax and F != 0:
-                    #    Fmax = F
-                    currentTasks.pop()
+                temp = availableTasks.pop(i)
+                Faa = dynamicRecursion(availableTasks, binChecking) # -
+                availableTasks.insert(i, temp) 
+
+                binChecking = list(binChecking)
+                binChecking[availableTasks[i][3]-1] = '1' # 100
+                binChecking = ''.join(binChecking)
+
+                sumOfP = pSum(copy.deepcopy(availableTasks))
+                for j in range(0, len(availableTasks)):
+                    binChecking = list(binChecking)
+                    binChecking[availableTasks[j][3]-1] = '0'
+                    binChecking = ''.join(binChecking)
+                    F = max((sumOfP - availableTasks[j][2]), 0) * availableTasks[j][1]
+                    if binChecking not in knownValues:
+                        temp = availableTasks.pop(j)
+                        Faa = dynamicRecursion(availableTasks, binChecking)
+                        availableTasks.insert(j, temp)    
+                    F += knownValues[binChecking]
+
+                    if F < Fmin:
+                        Fmin = F
+                    binChecking = list(binChecking)
+                    binChecking[availableTasks[j][3]-1] = '1'
+                    binChecking = ''.join(binChecking)
+                
+                if Fmin < math.inf:
+                    knownValues[binChecking] = Fmin
+                    #print(binChecking, ": ", Fmin)
+                else:
+                    knownValues[binChecking] = Faa
+                    #print(binChecking, ": ", Faa)
+
+            else:
                 binChecking = list(binChecking)
                 binChecking[availableTasks[i][3]-1] = '1'
                 binChecking = ''.join(binChecking)
-        
-        else:
-            F = calculate_Fmax(copy.deepcopy(currentTasks))
-            knownValues[binChecking] = F
-            #print(F)
-            if F < Fmax:
-                Fmax = F
-        
+            
+            
+            
+        return Fmin
 
-    dynamicRecursion(availableTasks, currentTasks, binTasksToCheck)
+    Fmax = dynamicRecursion(availableTasks, binTasksToCheck)
     return Fmax
 
-zadania = loadData("data/data15.txt")
+zadania = loadData("data/data13.txt")
 #print(calculate_Fmax(copy.deepcopy(zadania)))
 #zadaniaSortD = sortD(copy.deepcopy(zadania))
 #print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
