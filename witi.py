@@ -1,5 +1,6 @@
 import copy
 import math
+import timeit
 from itertools import permutations
 
 def loadData(path):
@@ -180,12 +181,53 @@ def dynamicRecursionStart(zad):
     Fmax = dynamicRecursion(availableTasks, binTasksToCheck)
     return Fmax
 
-zadania = loadData("data/data20.txt")
-#print(calculate_Fmax(copy.deepcopy(zadania)))
-#zadaniaSortD = sortD(copy.deepcopy(zadania))
-#print(calculate_Fmax(copy.deepcopy(zadaniaSortD)))
-#print(optPermutations(copy.deepcopy(zadania)))
-#print(optRecursionStart(copy.deepcopy(zadania)))
+# Wczytanie listy zadan
+zadania = loadData("data/data10.txt")
 
-print(dynamicIterations(copy.deepcopy(zadania)))
-print(dynamicRecursionStart(copy.deepcopy(zadania)))
+# Oryginal
+print("- Oryginal -")
+print("Kara (Fmax): ", calculate_Fmax(copy.deepcopy(zadania)))
+print()
+
+# Sort D
+print("- SortD -")
+start = timeit.default_timer()
+zadaniaSortD = sortD(copy.deepcopy(zadania))
+end = timeit.default_timer()
+print("Kara (Fmax): ", calculate_Fmax(copy.deepcopy(zadaniaSortD)))
+print("Czas wykonania: {:f}\n".format(end-start))
+print()
+
+# Przeglad zupelny - permutacje
+print("- BruteForce Permutacje -")
+start = timeit.default_timer()
+print("Kara (Fmax): ", optPermutations(copy.deepcopy(zadania)))
+end = timeit.default_timer()
+print("Czas wykonania: {:f}\n".format(end-start))
+print()
+
+# Przeglad zupelny - rekurencja
+print("- BruteForce Rekurencja -")
+start = timeit.default_timer()
+print("Kara (Fmax): ", optRecursionStart(copy.deepcopy(zadania)))
+end = timeit.default_timer()
+print("Czas wykonania: {:f}\n".format(end-start))
+print()
+
+# Algorytm dynamiczny - iteracje
+print("- Dynamiczny Iteracje -")
+start = timeit.default_timer()
+print("Kara (Fmax): ", dynamicIterations(copy.deepcopy(zadania)))
+end = timeit.default_timer()
+print("Czas wykonania: {:f}\n".format(end-start))
+print()
+
+# Algorytm dynamiczny - rekurencja
+print("- Dynamiczny Rekurencja -")
+start = timeit.default_timer()
+print("Kara (Fmax): ", dynamicRecursionStart(copy.deepcopy(zadania)))
+end = timeit.default_timer()
+print("Czas wykonania: {:f}\n".format(end-start))
+print()
+
+
