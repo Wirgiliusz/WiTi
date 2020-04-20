@@ -182,7 +182,7 @@ def dynamicRecursionStart(zad):
     return Fmax
 
 # Wczytanie listy zadan
-zadania = loadData("data/data10.txt")
+zadania = loadData("data/data20.txt")
 
 # Oryginal
 print("- Oryginal -")
@@ -199,20 +199,24 @@ print("Czas wykonania: {:f}\n".format(end-start))
 print()
 
 # Przeglad zupelny - permutacje
+''' Bez sensu dla danych > 11
 print("- BruteForce Permutacje -")
 start = timeit.default_timer()
 print("Kara (Fmax): ", optPermutations(copy.deepcopy(zadania)))
 end = timeit.default_timer()
 print("Czas wykonania: {:f}\n".format(end-start))
 print()
+'''
 
 # Przeglad zupelny - rekurencja
+''' Bez sensu dla danych > 10
 print("- BruteForce Rekurencja -")
 start = timeit.default_timer()
 print("Kara (Fmax): ", optRecursionStart(copy.deepcopy(zadania)))
 end = timeit.default_timer()
 print("Czas wykonania: {:f}\n".format(end-start))
 print()
+'''
 
 # Algorytm dynamiczny - iteracje
 print("- Dynamiczny Iteracje -")
@@ -229,5 +233,3 @@ print("Kara (Fmax): ", dynamicRecursionStart(copy.deepcopy(zadania)))
 end = timeit.default_timer()
 print("Czas wykonania: {:f}\n".format(end-start))
 print()
-
-
