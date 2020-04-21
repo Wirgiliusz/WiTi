@@ -17,16 +17,16 @@ def loadData(path):
     return zadania
 
 def calculate_Fmax(zad):
-    S = []
-    C = []
-    T = []
+    S = []  # momenty rozpoczecia
+    C = []  # momenty zakonczenia
+    T = []  # spoznienie zadania
     Fmax = 0
 
-    S.append(0)
-    C.append(zad[0][0])
-    T.append(max(C[0]-zad[0][2],0))
-    Fmax = zad[0][1] * T[0]
-    for j in range(1, len(zad)):
+    S.append(0)                         # S(0) = 0
+    C.append(zad[0][0])                 # C(0) = p_zad0
+    T.append(max(C[0]-zad[0][2],0))     # T = 0 lub T = C_zad0 - d_zad0
+    Fmax = zad[0][1] * T[0]             # F_zad0 = w_zad0 * T_zad0
+    for j in range(1, len(zad)):        # i tak samo dla reszty zadan
         S.append(C[j-1])
         C.append(S[j] + zad[j][0])
         T.append(max(C[j]-zad[j][2],0))
@@ -46,7 +46,7 @@ def sortD(zad):
             return zad
 
 def optPermutations(zad):
-    perms = list(permutations(zad,r=len(zad)))
+    perms = list(permutations(zad,r=len(zad)))  # lista wszystkich mozliwych permutacji o dlugosci n
     Fmax = math.inf
     for perm in perms:
         F = calculate_Fmax(perm)
@@ -74,7 +74,6 @@ def optRecursionStart(zad):
                 availableTasks.insert(i, temp)
                 currentTasks.pop()
         else:
-            #print(currentTasks)
             F = calculate_Fmax(copy.deepcopy(currentTasks))
             if F < Fmax:
                 Fmax = F
